@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "+Q1/BzVJPnl7oK6KoWe+hiTDjauGUxmrrcCmiBR/Iso=",
+  "Source": "WebApplicationServerAndClient",
+  "BasePath": "_content/WebApplicationServerAndClient",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

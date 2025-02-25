@@ -1,0 +1,50 @@
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "P@ssw0rd"
+      POSTGRES_DB: "postgres"
+      TZ: "Europe/Moscow" 
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  server:
+    build:
+      context: .
+      dockerfile: ./WebApplicationServerAndClient/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Username=postgres;Password=P@ssw0rd;Database=postgres"
+      REGION: "Europe/Moscow"
+      TZ: "Europe/Moscow"  # Добавление переменной для региона
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./Client/client/
+      dockerfile: Dockerfile
+    environment:
+      - REACT_APP_API_URL=http://server:8080  # Указание API URL для фронтенда
+      - REGION=Europe/Moscow  # Добавление переменной региона для фронтенда
+    ports:
+      - "3000:80"  # Это правильно указывает, что фронтенд доступен на порту 3000
+    networks:
+      - app-network
+    depends_on:
+      - server
+
+volumes:
+  postgres-data:
+
+networks:
+  app-network:
+    driver: bridge
